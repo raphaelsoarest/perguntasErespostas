@@ -1,6 +1,7 @@
 const express = require("express");
 const App = express();
 const bodyParser = require("body-parser");
+const connection = require('./database/database.js');
 
 App.set("view engine", "ejs");//falando para o express usar o EJS como motor para a view;
 App.use(express.static('public'));
@@ -21,6 +22,8 @@ App.post("/salvarpergunta", (req, res) => {
     res.send("FORM" + titulo + "," + descricao);
 });
 
+console.log(process.version)
+//localhost connect
 App.listen(4000, function(erro){
     if(erro){
         console.log("Temos um erro " + erro + "!");
@@ -28,3 +31,13 @@ App.listen(4000, function(erro){
         console.log("Servidor rodando com Sucesso!");
     };
 })
+
+//database
+connection
+    .authenticate()
+    .then(() => {
+        console.log('Conexão OK com banco de dados');
+    })
+    .catch((msgErro) => {
+        console.log(msgErro);
+    });
